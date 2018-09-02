@@ -78,6 +78,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="QuickLook.Plugin.Metadata.Base.config" />
     <None Include="QuickLook.Plugin.Metadata.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
