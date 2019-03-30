@@ -1,13 +1,42 @@
-﻿using System.IO;
+﻿// Copyright © 2019 Paddy Xu
+// 
+// This file is part of QuickLook program.
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+using System;
+using System.IO;
+using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using QuickLook.Common.Plugin;
 
-namespace QuickLook.Plugin.HelloWorld
+namespace QuickLook.Plugin.OfficeViewer
 {
     public class Plugin : IViewer
     {
-        public int Priority => 0;
+        private static readonly string[] Extensions =
+        {
+            ".doc", ".docx", ".docm",
+            ".xls", ".xlsx", ".xlsm", ".xlsb",
+            /*".vsd", ".vsdx",*/
+            ".ppt", ".pptx",
+            ".odt", ".ods", ".odp"
+        };
+
+        private PreviewPanel _panel;
+
+        public int Priority => int.MaxValue;
 
         public void Init()
         {
@@ -15,26 +44,35 @@ namespace QuickLook.Plugin.HelloWorld
 
         public bool CanHandle(string path)
         {
-            return !Directory.Exists(path) && path.ToLower().EndsWith(".zzz");
+            if (Directory.Exists(path))
+                return false;
+
+            if (Extensions.Any(path.ToLower().EndsWith))
+                return PreviewHandlerHost.GetPreviewHandlerGUID(path) != Guid.Empty;
+
+            return false;
         }
 
         public void Prepare(string path, ContextObject context)
         {
-            context.PreferredSize = new Size {Width = 600, Height = 400};
+            context.SetPreferredSizeFit(new Size {Width = 800, Height = 800}, 0.8);
         }
 
         public void View(string path, ContextObject context)
         {
-            var viewer = new Label {Content = "I am a Label. I do nothing at all."};
+            _panel = new PreviewPanel();
+            context.ViewerContent = _panel;
+            context.Title = Path.GetFileName(path);
 
-            context.ViewerContent = viewer;
-            context.Title = $"{Path.GetFileName(path)}";
+            _panel.PreviewFile(path, context);
 
             context.IsBusy = false;
         }
 
         public void Cleanup()
         {
+            _panel?.Dispose();
+            _panel = null;
         }
     }
 }

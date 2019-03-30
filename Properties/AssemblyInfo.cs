@@ -5,12 +5,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("QuickLook.Plugin.HelloWorld")]
+[assembly: AssemblyTitle("QuickLook.Plugin.OfficeViewer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("pooi.moe")]
-[assembly: AssemblyProduct("QuickLook.Plugin.HelloWorld")]
-[assembly: AssemblyCopyright("Copyright © Paddy Xu 2018")]
+[assembly: AssemblyProduct("QuickLook.Plugin.OfficeViewer")]
+[assembly: AssemblyCopyright("Copyright © Paddy Xu 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
