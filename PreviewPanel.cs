@@ -21,43 +21,42 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Forms.Integration;
 
-namespace QuickLook.Plugin.OfficeViewer
+namespace QuickLook.Plugin.OfficeViewer;
+
+/// <summary>
+///     Interaction logic for PreviewPanel.xaml
+/// </summary>
+public class PreviewPanel : WindowsFormsHost, IDisposable
 {
-    /// <summary>
-    ///     Interaction logic for PreviewPanel.xaml
-    /// </summary>
-    public class PreviewPanel : WindowsFormsHost, IDisposable
+    private PreviewHandlerHost _control;
+
+    public new void Dispose()
     {
-        private PreviewHandlerHost _control;
-
-        public new void Dispose()
+        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
         {
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                Child = null;
-                _control?.Dispose();
-                _control = null;
+            Child = null;
+            _control?.Dispose();
+            _control = null;
 
-                base.Dispose();
-            }));
-        }
-
-        public void PreviewFile(string file, ContextObject context)
-        {
-            _control = new PreviewHandlerHost();
-            Child = _control;
-            _control.Open(file);
-
-            //SetForegroundWindow(new WindowInteropHelper(context.ViewerWindow).Handle);
-            //SetActiveWindow(presenter.Handle);
-        }
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool SetForegroundWindow(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool SetActiveWindow(IntPtr hWnd);
+            base.Dispose();
+        }));
     }
+
+    public void PreviewFile(string file, ContextObject context)
+    {
+        _control = new PreviewHandlerHost();
+        Child = _control;
+        _control.Open(file);
+
+        //SetForegroundWindow(new WindowInteropHelper(context.ViewerWindow).Handle);
+        //SetActiveWindow(presenter.Handle);
+    }
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool SetActiveWindow(IntPtr hWnd);
 }
