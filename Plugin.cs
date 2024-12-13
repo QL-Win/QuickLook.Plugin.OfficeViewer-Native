@@ -15,11 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using QuickLook.Common.Plugin;
 using System;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using QuickLook.Common.Plugin;
+using System.Windows.Controls;
+using UnblockZoneIdentifier;
 
 namespace QuickLook.Plugin.OfficeViewer;
 
@@ -55,11 +57,42 @@ public class Plugin : IViewer
 
     public void Prepare(string path, ContextObject context)
     {
-        context.SetPreferredSizeFit(new Size { Width = 800, Height = 800 }, 0.8);
+        context.SetPreferredSizeFit(new Size { Width = 1000, Height = 800 }, 0.8);
     }
 
     public void View(string path, ContextObject context)
     {
+        // MS Office interface does not allow loading of protected view (It's also possible that I haven't found a way)
+        // Therefore, we need to predict in advance and then let users choose whether to lift the protection
+        if (ZoneIdentifierManager.IsZoneBlocked(path))
+        {
+            context.Title = $"[PROTECTED VIEW] {Path.GetFileName(path)}";
+
+            MessageBoxResult result = MessageBox.Show(
+                """
+                Be careful - files from the Internet can contain viruses.
+                The MS Office interface prevents loading in Protected View.
+
+                Would you like OfficeViewer-Native to unblock the ZoneIdentifier of Internet?
+                """,
+                "PROTECTED VIEW",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question
+            );
+
+            if (result == MessageBoxResult.Yes)
+            {
+                ZoneIdentifierManager.UnblockZone(path);
+            }
+            else
+            {
+                context.ViewerContent = new Label() { Content = "The MS Office interface prevents loading in Protected View." };
+                context.Title = $"[PROTECTED VIEW] {Path.GetFileName(path)}";
+                context.IsBusy = false;
+                return;
+            }
+        }
+
         _panel = new PreviewPanel();
         context.ViewerContent = _panel;
         context.Title = Path.GetFileName(path);

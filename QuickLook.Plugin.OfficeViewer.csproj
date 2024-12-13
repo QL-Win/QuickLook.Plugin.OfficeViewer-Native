@@ -75,8 +75,8 @@
         </ProjectReference>
     </ItemGroup>
 
-    <!--<ItemGroup>
-        <PackageReference Include="System.Drawing.Common" Version="9.0.0" />
-    </ItemGroup>-->
+    <ItemGroup>
+        <PackageReference Include="UnblockZoneIdentifier " Version="1.0.0" />
+    </ItemGroup>
 
 </Project>
