@@ -57,7 +57,7 @@ public class Plugin : IViewer
 
     public void Prepare(string path, ContextObject context)
     {
-        context.SetPreferredSizeFit(new Size { Width = 1000, Height = 800 }, 0.8);
+        context.SetPreferredSizeFit(new Size { Width = 1200, Height = 800 }, 0.8);
     }
 
     public void View(string path, ContextObject context)
@@ -71,7 +71,7 @@ public class Plugin : IViewer
             MessageBoxResult result = MessageBox.Show(
                 """
                 Be careful - files from the Internet can contain viruses.
-                The MS Office interface prevents loading in Protected View.
+                The Office interface prevents loading in Protected View.
 
                 Would you like OfficeViewer-Native to unblock the ZoneIdentifier of Internet?
                 """,
@@ -82,11 +82,16 @@ public class Plugin : IViewer
 
             if (result == MessageBoxResult.Yes)
             {
-                ZoneIdentifierManager.UnblockZone(path);
+                _ = ZoneIdentifierManager.UnblockZone(path);
             }
             else
             {
-                context.ViewerContent = new Label() { Content = "The MS Office interface prevents loading in Protected View." };
+                context.ViewerContent = new Label()
+                {
+                    Content = "The Office interface prevents loading in Protected View.",
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                };
                 context.Title = $"[PROTECTED VIEW] {Path.GetFileName(path)}";
                 context.IsBusy = false;
                 return;
