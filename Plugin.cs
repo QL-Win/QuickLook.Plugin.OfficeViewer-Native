@@ -31,7 +31,7 @@ public class Plugin : IViewer
     [
         ".doc", ".docx", ".docm",
         ".xls", ".xlsx", ".xlsm", ".xlsb",
-        /*".vsd", ".vsdx",*/
+        ".vsd", ".vsdx",
         ".ppt", ".pptx",
         ".odt", ".ods", ".odp"
     ];
