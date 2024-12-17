@@ -12,9 +12,9 @@
         <SignAssembly>false</SignAssembly>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <FileAlignment>512</FileAlignment>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
         <ProjectGuid>{9DD27AB3-C99B-4103-8BC8-B220EC399635}</ProjectGuid>
         <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
         <WarningLevel>4</WarningLevel>
@@ -34,7 +34,7 @@
         <DebugSymbols>false</DebugSymbols>
         <DebugType>Portable</DebugType>
         <Optimize>true</Optimize>
-        <OutputPath>bin\Release\</OutputPath>
+        <OutputPath>Build\Release\</OutputPath>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -50,7 +50,7 @@
         <DebugSymbols>false</DebugSymbols>
         <DebugType>Portable</DebugType>
         <Optimize>true</Optimize>
-        <OutputPath>bin\Release\</OutputPath>
+        <OutputPath>Build\Release\</OutputPath>
     </PropertyGroup>
 
     <ItemGroup>
@@ -78,5 +78,10 @@
     <ItemGroup>
         <PackageReference Include="UnblockZoneIdentifier " Version="1.0.0" />
     </ItemGroup>
+
+    <Target Name="ReduceReleasePackaging" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+        <Delete Files="$(OutputPath)\QuickLook.Common.dll" Condition="Exists('$(OutputPath)\QuickLook.Common.dll')" />
+        <Delete Files="$(OutputPath)\QuickLook.Common.pdb" Condition="Exists('$(OutputPath)\QuickLook.Common.pdb')" />
+    </Target>
 
 </Project>
