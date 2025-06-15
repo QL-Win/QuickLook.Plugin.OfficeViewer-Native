@@ -2,7 +2,7 @@
 
 # QuickLook.Plugin.OfficeViewer (Native)
 
-This plugin renders MS Word, Excel, and PowerPoint files with native components provided by existing `Microsoft Office suite` or ~~`WPS Office`~~ (According to feedback, WPS does not support).
+This plugin renders MS Word, Excel, and PowerPoint files with native components provided by existing `Microsoft Office suite` or ~~`WPS Office`~~ (According to the feedback, in most cases, WPS is not supported).
 
 ## Differences with [`OfficeViewer`](https://github.com/QL-Win/QuickLook.Plugin.OfficeViewer)
 
