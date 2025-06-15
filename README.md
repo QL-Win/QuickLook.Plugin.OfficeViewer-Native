@@ -1,3 +1,6 @@
+> This repository has been merged into the main branch of QuickLook,
+> and will no longer be maintained here.
+
 ![QuickLook icon](https://user-images.githubusercontent.com/1687847/29485863-8cd61b7c-84e2-11e7-97d5-eacc2ba10d28.png)
 
 # QuickLook.Plugin.OfficeViewer (Native)
